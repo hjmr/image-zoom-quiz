@@ -4,7 +4,7 @@ from flask import Flask, request, redirect, url_for, render_template, send_from_
 from werkzeug.utils import secure_filename
 
 UPLOAD_FOLDER = os.path.join(os.path.abspath(os.path.dirname(__file__)), 'uploaded')
-ALLOWED_EXTENSIONS = set(['jpg', 'jpeg', 'JPG', 'png', 'PNG'])
+ALLOWED_EXTENSIONS = set(['.jpg', '.jpeg', '.JPG', '.png', '.PNG'])
 
 
 application = Flask(__name__)
@@ -22,22 +22,38 @@ def allowed_file(filename):
 def saveFile(file):
     ret = False
     filename = None
-    if fileAllowed(file.filename):
+    if allowed_file(file.filename):
         filename = secure_filename(file.filename)
-        filepath = os.path.join(app.config['UPLOAD_FOLDER'], filename)
+        filepath = os.path.join(application.config['UPLOAD_FOLDER'], filename)
         file.save(filepath)
         ret = True
     return ret, filename
 
 
-@application.route("/")
+@application.route('/')
 def index():
-    return "not yet ready"
+    return 'not yet ready'
 
 
-@application.route("/test")
+@application.route('/upload_image', methods=['GET'])
+def pre_upload():
+    return render_template('file_upload.html', msg='Please select an image and upload.')
+
+
+@application.route('/upload_image', methods=['POST'])
+def do_upload():
+    file = request.files['file']
+    if file and allowed_file(file.filename):
+        filename = secure_filename(file.filename)
+        file.save(os.path.join(application.config['UPLOAD_FOLDER'], filename))
+        return render_template('specify_center.html', imgfile=filename)
+    return render_template('file_upload.html',
+                           msg='An error occurred when uploading file:{}'.format(file.filename))
+
+
+@application.route('/test')
 def test():
-    return render_template("test.html")
+    return render_template('test.html')
 
 
 @application.route('/imgs/<filename>')

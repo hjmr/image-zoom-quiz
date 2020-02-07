@@ -63,7 +63,7 @@ function timed_zoom() {
     }
 }
 
-function initParameters(image, duration, initialSizeRatio, initialCenterOffset) {
+function initParameters(imageFile, duration, initialSizeRatio, initialCenterOffset) {
     let n = duration / interval;
     sizeRatio = initialSizeRatio;
     sizeRatioStep = 1 / Math.pow(initialSizeRatio, 1.0 / n);
@@ -71,5 +71,5 @@ function initParameters(image, duration, initialSizeRatio, initialCenterOffset) 
     centerOffset.y = initialCenterOffset.y;
     centerOffsetStep.x = initialCenterOffset.x / n;
     centerOffsetStep.y = initialCenterOffset.y / n;
-    imageFilename = image;
+    imageFilename = imageFile;
 }

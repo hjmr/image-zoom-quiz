@@ -10,10 +10,11 @@
     <script src="/static/js/image_zoom.js"></script>
     <script>
       window.onload = function() {
+          let filename='chewbacca.jpg'
           let duration = 5 * 1000; // 5sec
           let initialSizeRatio = 50;
           let initialCenterOffset = {x:0, y:300};
-          initParameters('chewbacca.jpg', duration, initialSizeRatio, initialCenterOffset);
+          initParameters(filename, duration, initialSizeRatio, initialCenterOffset);
           setTimeout(timed_zoom, interval);
       }
     </script>

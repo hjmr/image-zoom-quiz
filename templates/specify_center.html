@@ -2,13 +2,22 @@
 <!DOCTYPE html>
 <html lang="ja">
   <head>
-    <title>Specify Center of Maginify</titl>
+    <title>Specify Center of Maginify</title>
     <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="/bootstrap/css/bootstrap.min.css">
     <script src="/bootstrap/js/bootstrap.min.js"></script>
+    <script src="/static/js/center_point.js"></script>
+    <script>
+      window.onload = function() {
+          let filename = 'chewbacca.jpg';
+          initParameters(filename);
+      }
+    </script>
   </head>
   <body>
-    <img src="/imgs/{{imgfile}}">
+    <div id="myCanvas">
+      image will be drawn here.
+    </div>
   </body>
 </html>
