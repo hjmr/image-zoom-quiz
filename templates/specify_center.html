@@ -12,23 +12,20 @@
     <script src="/static/js/p5.min.js"></script>
     <script src="/static/js/center_point.js"></script>
     <script>
-      let filename = "{{imgfile}}";
-      window.onload = function() {
-          initParameters(filename);
-      }
+      initParameters("{{imgfile}}");
     </script>
   </head>
   <body>
     <div class="container">
-      <form action="/store_" method="post" enctype=multipart/form-data>
+      <form action="/store_center_pos" method="post">
         <div class="form-group row">
-          <input class="form-control col-8" type="file" name="file">
-          <input class="btn btn-default col-4" type="submit" value="Upload">
+          <input type="hidden" name="imgfile" value="{{imgfile}}">
+          X:<input readonly class="col-4" type="text" id="posx" name="posx" value="0" size=10>
+          Y:<input readonly class="col-4" type="text" id="posy" name="posy" value="0" size=10>
+          <input class="btn btn-default col-4" type="submit" value="Set">
         </div>
       </form>
     </div>
-
-    <div id="myCanvas" style="align:center;">
-    </div>
+    <div id="myCanvas"></div>
   </body>
 </html>
