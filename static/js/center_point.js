@@ -11,7 +11,7 @@ function preload() {
 
 function centering() {
     let x = (windowWidth - width) / 2;
-    cnv.position(x, 50);
+    cnv.position(x, 80);
 }
 
 function setup() {

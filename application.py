@@ -56,7 +56,7 @@ def do_upload():
         file.save(os.path.join(application.config['UPLOAD_FOLDER'], filename))
         return render_template('specify_center.html', imgfile=filename)
     return render_template('file_upload.html',
-                           msg='An error occurred when uploading file:{}'.format(file.filename))
+                           msg='An <b>error</b> occurred when uploading file:{}'.format(file.filename))
 
 
 @application.route('/store_center_pos', methods=['POST'])
@@ -73,8 +73,12 @@ def store_center_pos():
         image = ImageDB(image_file=filename, posx=posx, posy=posy)
         session.add(image)
     session.commit()
-    return render_template('file_upload.html',
-                           msg='Image file:{} successfully registered.'.format(filename))
+    return redirect(url_for('register_success'))
+
+
+@application.route('/success')
+def register_success():
+    return render_template('success.html')
 
 
 @application.route('/test')
