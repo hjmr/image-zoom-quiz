@@ -11,7 +11,7 @@ function preload() {
 
 function centering() {
     let x = (windowWidth - width) / 2;
-    cnv.position(x, 80);
+    cnv.position(x, 120);
 }
 
 function setup() {
@@ -23,11 +23,18 @@ function setup() {
 }
 
 function draw() {
+    let hw = img.width  / 2;
+    let hh = img.height / 2;
     image(img, 0, 0);
+    stroke(0);
+    line(0, hh, width, hh);
+    line(hw, 0, hw, height);
+    stroke(255, 255, 0);
     line(0, mouseY, width, mouseY);
     line(mouseX, 0, mouseX, height);
     ellipse(mouseX, mouseY, 5, 5);
     if( 0 <= currPosX && 0 <= currPosY ) {
+        stroke(0);
         ellipse(currPosX, currPosY, 10, 10);
     }
 }
@@ -38,8 +45,10 @@ function windowResized() {
 
 function mouseClicked() {
     if( 0 <= mouseX && mouseX < width && 0 <= mouseY && mouseY < height ) {
-        document.getElementById("posx").value = currPosX = Math.round(mouseX);
-        document.getElementById("posy").value = currPosY = Math.round(mouseY);
+        currPosX = mouseX;
+        currPosY = mouseY;
+        document.getElementById("posx").value = Math.round(currPosX - (img.width  / 2));
+        document.getElementById("posy").value = Math.round(currPosY - (img.height / 2));
     }
 }
 

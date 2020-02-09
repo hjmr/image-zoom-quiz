@@ -1,5 +1,6 @@
 let origImage;
 let origAratio;
+let running;
 
 // Animation Speed
 let interval = 0.05 * 1000; // 0.05sec
@@ -32,7 +33,9 @@ function preload() {
 
 function setup() {
     cnvSize = calcCanvasSize();
-    createCanvas(cnvSize.width, cnvSize.height);
+    let cnv = createCanvas(cnvSize.width, cnvSize.height);
+    cnv.parent("myCanvas")
+    running = true;
 }
 
 function windowResized() {
@@ -50,8 +53,16 @@ function draw() {
     image(origImage, offsetX, offsetY, newWidth, newHeight, 0, 0, origImage.width, origImage.height);
 }
 
+function mouseClicked() {
+    toggleRunning();
+}
+
+function toggleRunning() {
+    running = (running == true) ? false : true;
+}
+
 function timed_zoom() {
-    if( 1 < sizeRatio ) {
+    if( running && 1 < sizeRatio ) {
         sizeRatio *= sizeRatioStep;
         centerOffset.x -= centerOffsetStep.x;
         centerOffset.y -= centerOffsetStep.y;

@@ -9,11 +9,12 @@
     <script src="/bootstrap/js/bootstrap.min.js"></script>
   </head>
   <body>
-    <h2>SUCCESS!!</h2>
+    <h2>{{title}}</h2>
     <div class="container">
-      <form action="/register_image" method="get">
-        Please press the right button to register another image: <input class="btn btn-default" type="submit" value="Proceed">
-      </form>
+      <div>
+        {{msg}}
+      </div>
+      <a href="{{target}}">Proceed</a>
     </div>
   </body>
 </html>

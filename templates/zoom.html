@@ -3,16 +3,16 @@
 <html lang="ja">
   <head>
     <meta charset="UTF-8">
-    <title>Image Zoom Test</title>
+    <title>Zoom Image</title>
 
     <link rel="stylesheet" href="/static/css/image_zoom.css">
     <script src="/static/js/p5.min.js"></script>
     <script src="/static/js/image_zoom.js"></script>
     <script>
-      let filename='chewbacca.jpg'
-      let duration = 5 * 1000; // 5sec
+      let filename="{{image}}"
+      let duration = 10 * 1000; // 5sec
       let initialSizeRatio = 50;
-      let initialCenterOffset = {x:0, y:300};
+      let initialCenterOffset = {x:{{posx}}, y:{{posy}}};
       initParameters(filename, duration, initialSizeRatio, initialCenterOffset);
       window.onload = function() {
           setTimeout(timed_zoom, interval);
