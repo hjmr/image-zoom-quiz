@@ -11,7 +11,7 @@ import cv2
 from models import DB_URL, ImageDB
 
 UPLOAD_FOLDER = os.path.join(os.path.abspath(os.path.dirname(__file__)), 'uploaded')
-ALLOWED_EXTENSIONS = set(['.jpg', '.jpeg', '.JPG', '.png', '.PNG'])
+ALLOWED_EXTENSIONS = set(['.jpg', '.jpeg', '.JPG'])
 MAX_IMAGE_WIDTH = 1280
 
 

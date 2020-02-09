@@ -26,13 +26,16 @@ function draw() {
     let hw = img.width  / 2;
     let hh = img.height / 2;
     image(img, 0, 0);
+    // center
     stroke(0);
     line(0, hh, width, hh);
     line(hw, 0, hw, height);
+    // cursor
     stroke(255, 255, 0);
     line(0, mouseY, width, mouseY);
     line(mouseX, 0, mouseX, height);
     ellipse(mouseX, mouseY, 5, 5);
+    // current point
     if( 0 <= currPosX && 0 <= currPosY ) {
         stroke(0);
         ellipse(currPosX, currPosY, 10, 10);

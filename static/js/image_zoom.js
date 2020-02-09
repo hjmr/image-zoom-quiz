@@ -1,6 +1,10 @@
 let origImage;
 let origAratio;
+
+// timeout control
 let running;
+let wating_timeout;
+let finished;
 
 // Animation Speed
 let interval = 0.05 * 1000; // 0.05sec
@@ -35,7 +39,9 @@ function setup() {
     cnvSize = calcCanvasSize();
     let cnv = createCanvas(cnvSize.width, cnvSize.height);
     cnv.parent("myCanvas")
-    running = true;
+    running = false;
+    waiting_timeout = false;
+    finished = false;
 }
 
 function windowResized() {
@@ -54,7 +60,20 @@ function draw() {
 }
 
 function mouseClicked() {
-    toggleRunning();
+    if( finished ) {
+        location.href="/";
+    } else {
+        if( running ) {
+            running = false;
+        } else {
+            running = true;
+        }
+
+        if( running && !waiting_timeout ) {
+            setTimeout(timed_zoom, interval);
+            waiting_timeout = true;
+        }
+    }
 }
 
 function toggleRunning() {
@@ -62,15 +81,19 @@ function toggleRunning() {
 }
 
 function timed_zoom() {
-    if( running && 1 < sizeRatio ) {
+    if( 1 < sizeRatio ) {
         sizeRatio *= sizeRatioStep;
         centerOffset.x -= centerOffsetStep.x;
         centerOffset.y -= centerOffsetStep.y;
-    }
-    if( sizeRatio < 1 ) {
+    } else if( sizeRatio < 1 ) {
         sizeRatio = 1;
-    } else {
+        finished = true;
+    }
+
+    if( running ) {
         setTimeout(timed_zoom, interval);
+    } else {
+        waiting_timeout = false;
     }
 }
 
