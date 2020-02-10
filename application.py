@@ -19,6 +19,7 @@ MAX_IMAGE_WIDTH = 1280
 DB_FILE = 'image_db.sqlite3'
 
 application = Flask(__name__)
+application.secret_key = 'db295528b34367fa2a5a5ece8217b4b712136c171d8a6c1fca622151736495c0'
 application.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
 if not os.path.exists(UPLOAD_FOLDER):
@@ -31,6 +32,7 @@ engine = create_engine(DB_URL)
 if not db_exists:
     models.Base.metadata.create_all(engine)
 Session = sessionmaker(bind=engine)
+session = Session()
 
 
 def allowed_file(filename):
@@ -43,16 +45,13 @@ def allowed_file(filename):
 
 @application.route('/')
 def index():
-    session = Session()
     all_data = session.query(ImageDB).all()
     file_list = [d.image_file for d in all_data]
-    session.close()
     return render_template('start.html', file_list=file_list)
 
 
 @application.route('/show/<filename>')
 def show_zoom(filename):
-    session = Session()
     ret = 'Unknown error occurred.'
     try:
         dat = session.query(ImageDB).filter(ImageDB.image_file == filename).one()
@@ -95,7 +94,6 @@ def store_center_pos():
     filename = request.form['imgfile']
     posx = int(request.form['posx'])
     posy = int(request.form['posy'])
-    session = Session()
     try:
         image = session.query(ImageDB).filter(ImageDB.image_file == filename).one()
         image.posx = posx
@@ -104,7 +102,6 @@ def store_center_pos():
         image = ImageDB(image_file=filename, posx=posx, posy=posy)
         session.add(image)
     session.commit()
-    session.close()
     return redirect(url_for('register_success'))
 
 
