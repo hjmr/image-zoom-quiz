@@ -87,7 +87,7 @@ def do_upload():
 
         return render_template('specify_center.html', imgfile=filename)
     return render_template('file_upload.html',
-                           msg='An <b>error</b> occurred when uploading file:{}'.format(filename))
+                           msg='An <b>error</b> occurred when uploading file.')
 
 
 @application.route('/store_center_pos', methods=['POST'])
