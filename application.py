@@ -8,17 +8,28 @@ from sqlalchemy.orm import sessionmaker, exc
 
 import cv2
 
-from models import DB_URL, ImageDB
+import models
+from models import ImageDB
 
 UPLOAD_FOLDER = os.path.join(os.path.abspath(os.path.dirname(__file__)), 'uploaded')
+DB_FOLDER = os.path.abspath(os.path.dirname(__file__))
+
 ALLOWED_EXTENSIONS = set(['.jpg', '.jpeg', '.JPG'])
 MAX_IMAGE_WIDTH = 1280
-
+DB_FILE = 'image_db.sqlite3'
 
 application = Flask(__name__)
 application.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
+if not os.path.exists(UPLOAD_FOLDER):
+    os.makedirs(UPLOAD_FOLDER)
+
+DB_URL = 'sqlite:///{}'.format(DB_FILE)
+db_exists = os.path.exists(os.path.join(DB_FOLDER, DB_FILE))
+
 engine = create_engine(DB_URL)
+if not db_exists:
+    models.Base.metadata.create_all(engine)
 Session = sessionmaker(bind=engine)
 
 
