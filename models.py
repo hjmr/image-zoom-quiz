@@ -1,17 +1,16 @@
-from sqlalchemy.ext.declarative import declarative_base
-from sqlalchemy import Column, Integer, String
-from sqlalchemy import create_engine
+from flask_sqlalchemy import SQLAlchemy
 
-Base = declarative_base()
+db = SQLAlchemy()
 
 
-class ImageDB(Base):
+def init_db(app):
+    db.init_app(app)
+
+
+class ImageDB(db.Model):
     __tablename__ = 'imagedb'
 
-    id = Column(Integer, primary_key=True)
-    image_file = Column(String)
-    posx = Column(Integer)
-    posy = Column(Integer)
-
-    def __repr__(self):
-        return "<ImageDB(image_file = '{}', pos = '{},{}'>".format(self.image, self.posx, self.posy)
+    id = db.Column(db.Integer, primary_key=True)
+    image_file = db.Column(db.String(255), nullable=False)
+    posx = db.Column(db.Integer)
+    posy = db.Column(db.Integer)

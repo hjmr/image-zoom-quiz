@@ -3,13 +3,9 @@ import os
 from flask import Flask, request, redirect, url_for, render_template, send_from_directory
 from werkzeug.utils import secure_filename
 
-from sqlalchemy import create_engine
-from sqlalchemy.orm import sessionmaker, exc
-
 import cv2
 
-import models
-from models import ImageDB
+from models import db, init_db, ImageDB
 
 UPLOAD_FOLDER = os.path.join(os.path.abspath(os.path.dirname(__file__)), 'uploaded')
 DB_FOLDER = os.path.abspath(os.path.dirname(__file__))
@@ -19,20 +15,16 @@ MAX_IMAGE_WIDTH = 1280
 DB_FILE = 'image_db.sqlite3'
 
 application = Flask(__name__)
-application.secret_key = 'db295528b34367fa2a5a5ece8217b4b712136c171d8a6c1fca622151736495c0'
 application.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
+application.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///{}'.format(DB_FILE)
+
+init_db(application)
 
 if not os.path.exists(UPLOAD_FOLDER):
     os.makedirs(UPLOAD_FOLDER)
 
-DB_URL = 'sqlite:///{}'.format(DB_FILE)
-db_exists = os.path.exists(os.path.join(DB_FOLDER, DB_FILE))
-
-engine = create_engine(DB_URL)
-if not db_exists:
-    models.Base.metadata.create_all(engine)
-Session = sessionmaker(bind=engine)
-session = Session()
+if not os.path.exists(os.path.join(DB_FOLDER, DB_FILE)):
+    db.create_all()
 
 
 def allowed_file(filename):
@@ -45,7 +37,7 @@ def allowed_file(filename):
 
 @application.route('/')
 def index():
-    all_data = session.query(ImageDB).all()
+    all_data = ImageDB.query.all()
     file_list = [d.image_file for d in all_data]
     return render_template('start.html', file_list=file_list)
 
@@ -53,15 +45,15 @@ def index():
 @application.route('/show/<filename>')
 def show_zoom(filename):
     ret = 'Unknown error occurred.'
-    try:
-        dat = session.query(ImageDB).filter(ImageDB.image_file == filename).one()
-        ret = render_template('zoom.html',
-                              image=dat.image_file, posx=dat.posx, posy=dat.posy)
-    except exc.NoResultFound:
+    dat = db.session.query(ImageDB).filter_by(image_file=filename).first()
+    if dat is None:
         ret = render_template('notify.html',
                               title="ERROR!!",
                               msg="Cannot find image:{}.".format(filename),
                               target="/")
+    else:
+        ret = render_template('zoom.html',
+                              image=dat.image_file, posx=dat.posx, posy=dat.posy)
     return ret
 
 
@@ -94,14 +86,15 @@ def store_center_pos():
     filename = request.form['imgfile']
     posx = int(request.form['posx'])
     posy = int(request.form['posy'])
-    try:
-        image = session.query(ImageDB).filter(ImageDB.image_file == filename).one()
+
+    image = db.session.query(ImageDB).filter_by(image_file=filename).first()
+    if image is None:
+        image = ImageDB(image_file=filename, posx=posx, posy=posy)
+        db.session.add(image)
+    else:
         image.posx = posx
         image.posy = posy
-    except exc.NoResultFound:
-        image = ImageDB(image_file=filename, posx=posx, posy=posy)
-        session.add(image)
-    session.commit()
+    db.session.commit()
     return redirect(url_for('register_success'))
 
 
