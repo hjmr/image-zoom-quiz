@@ -2,35 +2,44 @@ import os
 
 from flask import Flask, request, redirect, url_for, render_template, send_from_directory
 from werkzeug.utils import secure_filename
+from flask_sqlalchemy import SQLAlchemy
 
 import cv2
 
-from models import db, init_db, ImageDB
+import config
 
-UPLOAD_FOLDER = os.path.join(os.path.abspath(os.path.dirname(__file__)), 'uploaded')
+UPLOAD_FOLDER = os.path.join(os.path.abspath(os.path.dirname(__file__)), config.UPLOAD_FOLDER)
 DB_FOLDER = os.path.abspath(os.path.dirname(__file__))
 
-ALLOWED_EXTENSIONS = set(['.jpg', '.jpeg', '.JPG'])
-MAX_IMAGE_WIDTH = 1280
-DB_FILE = 'image_db.sqlite3'
 
 application = Flask(__name__)
 application.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
-application.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///{}'.format(DB_FILE)
+application.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///{}'.format(config.DB_FILE)
+application.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
-init_db(application)
+db = SQLAlchemy(application)
+
+
+class ImageDB(db.Model):
+    __tablename__ = 'imagedb'
+
+    id = db.Column(db.Integer, primary_key=True)
+    image_file = db.Column(db.String(255), nullable=False)
+    posx = db.Column(db.Integer)
+    posy = db.Column(db.Integer)
+
 
 if not os.path.exists(UPLOAD_FOLDER):
     os.makedirs(UPLOAD_FOLDER)
 
-if not os.path.exists(os.path.join(DB_FOLDER, DB_FILE)):
+if not os.path.exists(os.path.join(DB_FOLDER, config.DB_FILE)):
     db.create_all()
 
 
 def allowed_file(filename):
     ret = False
     _, ext = os.path.splitext(filename)
-    if ext in ALLOWED_EXTENSIONS:
+    if ext in config.ALLOWED_EXTENSIONS:
         ret = True
     return ret
 
@@ -72,8 +81,8 @@ def do_upload():
 
         img = cv2.imread(filepath)
         height, width, _ = img.shape[:3]
-        if MAX_IMAGE_WIDTH < width:
-            img_small = cv2.resize(img, (MAX_IMAGE_WIDTH, MAX_IMAGE_WIDTH * height // width))
+        if config.MAX_IMAGE_WIDTH < width:
+            img_small = cv2.resize(img, (config.MAX_IMAGE_WIDTH, config.MAX_IMAGE_WIDTH * height // width))
             cv2.imwrite(filepath, img_small)
 
         return render_template('specify_center.html', imgfile=filename)
@@ -106,14 +115,14 @@ def register_success():
                            target="/register_image")
 
 
-@application.route('/test')
-def test():
-    return render_template('test.html')
-
-
 @application.route('/imgs/<filename>')
 def get_image(filename):
     return send_from_directory(UPLOAD_FOLDER, filename)
+
+
+@application.route('/test')
+def test():
+    return render_template('test.html')
 
 
 if __name__ == '__main__':
