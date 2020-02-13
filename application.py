@@ -2,7 +2,7 @@ import os
 from flask import request, redirect, url_for, render_template, send_from_directory
 from werkzeug.utils import secure_filename
 
-import cv2
+from PIL import Image
 
 from models import application, db, ImageDB
 from config import Config
@@ -57,13 +57,13 @@ def do_upload():
         filepath = os.path.join(application.config['UPLOAD_FOLDER'], filename)
         file.save(filepath)
 
-        img = cv2.imread(filepath)
-        height, width, _ = img.shape[:3]
+        img = Image.open(filepath)
+        height, width = img.size
         if Config.MAX_IMAGE_WIDTH < width:
-            img_small = cv2.resize(img, (Config.MAX_IMAGE_WIDTH, Config.MAX_IMAGE_WIDTH * height // width))
-            cv2.imwrite(filepath, img_small)
+            img.thumbnail((Config.MAX_IMAGE_WIDTH, Config.MAX_IMAGE_WIDTH * height // width))
+            img.save(filepath)
 
-        return render_template('specify_center.html', imgfile=filename)
+            return render_template('specify_center.html', imgfile=filename)
     return render_template('file_upload.html',
                            msg='An <b>error</b> occurred when uploading file.')
 
