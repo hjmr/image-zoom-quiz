@@ -63,9 +63,9 @@ def do_upload():
             img.thumbnail((Config.MAX_IMAGE_WIDTH, Config.MAX_IMAGE_WIDTH * height // width))
             img.save(filepath)
 
-            return render_template('specify_center.html', imgfile=filename)
+        return render_template('specify_center.html', imgfile=filename)
     return render_template('file_upload.html',
-                           msg='An <b>error</b> occurred when uploading file.')
+                           msg='An error occurred when uploading file.')
 
 
 @application.route('/store_center_pos', methods=['POST'])
