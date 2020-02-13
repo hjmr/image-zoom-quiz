@@ -1,5 +1,5 @@
 let img;
-let cnv;
+let cnv = null;
 let currPosX, currPosY;
 
 // Pareters
@@ -10,8 +10,10 @@ function preload() {
 }
 
 function centering() {
-    let x = (windowWidth - width) / 2;
-    cnv.position(x, 120);
+    if( cnv != null ) {
+        let x = (windowWidth - width) / 2;
+        cnv.position(x, 120);
+    }
 }
 
 function setup() {
