@@ -1,28 +1,16 @@
 import os
-
-from flask import Flask, request, redirect, url_for, render_template, send_from_directory
+from flask import request, redirect, url_for, render_template, send_from_directory
 from werkzeug.utils import secure_filename
 
 import cv2
 
-from models import db, init_db, ImageDB
+from models import application, db, ImageDB
 from config import Config
 
-UPLOAD_FOLDER = os.path.join(os.path.abspath(os.path.dirname(__file__)), Config.UPLOAD_FOLDER)
-DB_FOLDER = os.path.abspath(os.path.dirname(__file__))
+if not os.path.exists(application.config['UPLOAD_FOLDER']):
+    os.makedirs(application.config['UPLOAD_FOLDER'])
 
-
-application = Flask(__name__)
-application.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
-application.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///{}'.format(Config.DB_FILE)
-application.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-
-init_db(application)
-
-if not os.path.exists(UPLOAD_FOLDER):
-    os.makedirs(UPLOAD_FOLDER)
-
-if not os.path.exists(os.path.join(DB_FOLDER, Config.DB_FILE)):
+if not os.path.exists(application.config['DB_FILE']):
     db.create_all()
 
 
@@ -107,7 +95,7 @@ def register_success():
 
 @application.route('/imgs/<filename>')
 def get_image(filename):
-    return send_from_directory(UPLOAD_FOLDER, filename)
+    return send_from_directory(application.config['UPLOAD_FOLDER'], filename)
 
 
 @application.route('/test')
