@@ -6,12 +6,10 @@ verify_ssl = true
 [dev-packages]
 pylint = "*"
 autopep8 = "*"
+awsebcli = "*"
 
 [packages]
-flask = "*"
-opencv-python = "*"
 flask-sqlalchemy = "*"
-awsebcli = "*"
 
 [requires]
 python_version = "3.6"
