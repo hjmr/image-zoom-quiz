@@ -6,8 +6,8 @@
 
     <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
-    <link rel="stylesheet" href="/bootstrap/css/bootstrap.min.css">
-    <script src="/bootstrap/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="/static/css/bootstrap.min.css">
+    <script src="/static/js/bootstrap.min.js"></script>
 
     <script src="/static/js/p5.min.js"></script>
     <script src="/static/js/center_point.js"></script>
@@ -16,14 +16,26 @@
     </script>
   </head>
   <body>
-    <h2>STEP2: Specify Zoom Start Position</h2>
     <div class="container">
+      <h2>STEP2: Specify Zoom Start Position</h2>
       <form action="/store_center_pos" method="post">
-        <div class="form-group row">
-          <input type="hidden" name="imgfile" value="{{imgfile}}">
-          X:<input readonly class="col-4" type="text" id="posx" name="posx" value="0" size=10>
-          Y:<input readonly class="col-4" type="text" id="posy" name="posy" value="0" size=10>
-          <input class="btn btn-default col-4" type="submit" value="Set">
+        <input type="hidden" name="imgfile" value="{{imgfile}}">
+        <div class="form-group row align-items-center">
+          <div class="col-1 text-right">
+            X:
+          </div>
+          <div class="col-4">
+            <input readonly type="text" id="posx" name="posx" value="0" class="form-control w-100">
+          </div>
+          <div class="col-1 text-right">
+            Y:
+          </div>
+          <div class="col-4 col-auto">
+            <input readonly type="text" id="posy" name="posy" value="0" class="form-control w-100">
+          </div>
+          <div class="col-2">
+            <input class="btn btn-primary w-100" type="submit" value="Set">
+          </div>
         </div>
       </form>
     </div>
