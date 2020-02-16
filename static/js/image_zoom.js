@@ -21,10 +21,10 @@ function calcCanvasSize() {
     let aratio = windowWidth / windowHeight;
     if( aratio < origAratio ) {
         cnvWidth  = windowWidth;
-        cnvHeight = cnvWidth / origAratio;
+        cnvHeight = cnvWidth * origImage.height / origImage.width;
     } else {
         cnvHeight = windowHeight;
-        cnvWidth  = cnvHeight * origAratio;
+        cnvWidth  = cnvHeight * origImage.width / origImage.height;
     }
     let cnvSize = {width:cnvWidth, height:cnvHeight};
     return cnvSize;
@@ -50,13 +50,11 @@ function windowResized() {
 }
 
 function draw() {
-    let newWidth = width;
-    let newHeight = origImage.height * newWidth / origImage.width;
-    newWidth  *= sizeRatio;
-    newHeight *= sizeRatio;
-    let offsetX = (width  - newWidth ) / 2 - centerOffset.x * sizeRatio;
-    let offsetY = (height - newHeight) / 2 - centerOffset.y * sizeRatio;
-    image(origImage, offsetX, offsetY, newWidth, newHeight, 0, 0, origImage.width, origImage.height);
+    let w = origImage.width / sizeRatio;
+    let h = origImage.height / sizeRatio;
+    let x = (origImage.width  - w) / 2 + centerOffset.x;
+    let y = (origImage.height - h) / 2 + centerOffset.y;
+    image(origImage, 0, 0, width, height, x, y, w, h);
 }
 
 function mouseClicked() {
@@ -87,6 +85,7 @@ function timed_zoom() {
         centerOffset.y -= centerOffsetStep.y;
     } else if( sizeRatio < 1 ) {
         sizeRatio = 1;
+        centerOffset.x = centerOffset.y = 0;
         finished = true;
     }
 
