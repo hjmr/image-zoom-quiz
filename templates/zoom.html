@@ -10,8 +10,8 @@
     <script src="/static/js/image_zoom.js"></script>
     <script>
       let filename="{{image}}"
-      let duration = 10 * 1000; // 10sec
-      let initialSizeRatio = 50;
+      let duration = {{duration_in_sec}} * 1000; // 10sec
+      let initialSizeRatio = {{zoom_ratio}};
       let initialCenterOffset = {x:{{posx}}, y:{{posy}}};
       initParameters(filename, duration, initialSizeRatio, initialCenterOffset);
     </script>

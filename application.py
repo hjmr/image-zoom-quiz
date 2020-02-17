@@ -40,7 +40,11 @@ def show_zoom(filename):
                               target="/")
     else:
         ret = render_template('zoom.html',
-                              image=dat.image_file, posx=dat.posx, posy=dat.posy)
+                              image=dat.image_file,
+                              posx=dat.posx,
+                              posy=dat.posy,
+                              duration_in_sec=10,
+                              zoom_ratio=50)
     return ret
 
 
