@@ -2,6 +2,7 @@ let origImage;
 let origAratio;
 
 // timeout control
+let estimatedTimetoFinish;
 let running;
 let wating_timeout;
 let finished;
@@ -55,6 +56,14 @@ function draw() {
     let x = (origImage.width  - w) / 2 + centerOffset.x;
     let y = (origImage.height - h) / 2 + centerOffset.y;
     image(origImage, 0, 0, width, height, x, y, w, h);
+    if( estimatedTimetoFinish < 5 * 1000 ) {
+        fill(255, 0, 0);
+    } else {
+        fill(255);
+    }
+    textSize(24);
+    let estStr = ("00000" + estimatedTimetoFinish).substr(-5);
+    text(estStr.substr(0,2) + "." + estStr.substr(-3) + "sec", 10, 30);
 }
 
 function mouseClicked() {
@@ -81,12 +90,15 @@ function toggleRunning() {
 function timed_zoom() {
     if( 1 < sizeRatio ) {
         sizeRatio *= sizeRatioStep;
+        estimatedTimetoFinish -= interval;
         centerOffset.x -= centerOffsetStep.x;
         centerOffset.y -= centerOffsetStep.y;
     } else if( sizeRatio < 1 ) {
         sizeRatio = 1;
+        estimatedTimetoFinish = 0;
         centerOffset.x = centerOffset.y = 0;
         finished = true;
+        running = false;
     }
 
     if( running ) {
@@ -98,6 +110,7 @@ function timed_zoom() {
 
 function initParameters(imageFile, duration, initialSizeRatio, initialCenterOffset) {
     let n = duration / interval;
+    estimatedTimetoFinish = duration;
     sizeRatio = initialSizeRatio;
     sizeRatioStep = 1 / Math.pow(initialSizeRatio, 1.0 / n);
     centerOffset.x = initialCenterOffset.x;

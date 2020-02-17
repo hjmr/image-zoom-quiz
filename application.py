@@ -46,7 +46,8 @@ def show_zoom(filename):
 
 @application.route('/register_image', methods=['GET'])
 def pre_upload():
-    return render_template('file_upload.html', msg='Please select an image and upload.')
+    return render_template('file_upload.html',
+                           msg='Please choose an image (JPG or PNG) and upload.')
 
 
 @application.route('/register_image', methods=['POST'])
