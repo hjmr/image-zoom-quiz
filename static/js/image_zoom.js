@@ -62,7 +62,7 @@ function draw() {
         fill(255);
     }
     textSize(24);
-    let estStr = ("00000" + estimatedTimetoFinish).substr(-5);
+    let estStr = ("00000" + estimatedTimetoFinish).substr(-5,4); // the last 4 chars
     text(estStr.substr(0,2) + "." + estStr.substr(-3) + "sec", 10, 30);
 }
 
