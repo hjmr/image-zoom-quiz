@@ -63,7 +63,7 @@ function draw() {
     }
     textSize(24);
     let estStr = ("00000" + estimatedTimetoFinish).substr(-5,4); // the last 4 chars
-    text(estStr.substr(0,2) + "." + estStr.substr(-3) + "sec", 10, 30);
+    text(estStr.substr(0,2) + "." + estStr.substr(-2) + "sec", 10, 30);
 }
 
 function mouseClicked() {
