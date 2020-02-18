@@ -66,16 +66,15 @@ function draw() {
     text(estStr.substr(0,2) + "." + estStr.substr(-2) + "sec", 10, 30);
 }
 
-function mouseClicked() {
+function toggleRunning() {
+    running = (running == true) ? false : true;
+}
+
+function anyClicked() {
     if( finished ) {
         location.href="/";
     } else {
-        if( running ) {
-            running = false;
-        } else {
-            running = true;
-        }
-
+        toggleRunning();
         if( running && !waiting_timeout ) {
             setTimeout(timed_zoom, interval);
             waiting_timeout = true;
@@ -83,8 +82,12 @@ function mouseClicked() {
     }
 }
 
-function toggleRunning() {
-    running = (running == true) ? false : true;
+function mouseClicked() {
+    anyClicked();
+}
+
+function touchReleased() {
+    anyClicked();
 }
 
 function timed_zoom() {
