@@ -86,7 +86,7 @@ function mouseClicked() {
     anyClicked();
 }
 
-function touchReleased() {
+function touchEnded() {
     anyClicked();
 }
 
