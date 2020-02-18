@@ -20,5 +20,6 @@ class ImageDB(db.Model):
 
     id = db.Column(db.Integer, primary_key=True)
     image_file = db.Column(db.String(255), nullable=False)
+    title = db.Column(db.String(255), nullable=False)
     posx = db.Column(db.Integer)
     posy = db.Column(db.Integer)

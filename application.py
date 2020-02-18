@@ -25,7 +25,7 @@ def allowed_file(filename):
 @application.route('/')
 def index():
     all_data = ImageDB.query.all()
-    file_list = [d.image_file for d in all_data]
+    file_list = [{'file': d.image_file, 'title': d.title} for d in all_data]
     return render_template('start.html', file_list=file_list)
 
 
@@ -57,6 +57,7 @@ def pre_upload():
 @application.route('/register_image', methods=['POST'])
 def do_upload():
     file = request.files['file']
+    title = request.form['title']
     if file and allowed_file(file.filename):
         filename = secure_filename(file.filename)
         filepath = os.path.join(application.config['UPLOAD_FOLDER'], filename)
@@ -68,7 +69,9 @@ def do_upload():
             img.thumbnail((Config.MAX_IMAGE_WIDTH, Config.MAX_IMAGE_WIDTH * height // width))
             img.save(filepath)
 
-        return render_template('specify_center.html', imgfile=filename)
+        if len(title) == 0:
+            title = filename
+        return render_template('specify_center.html', title=title, imgfile=filename)
     return render_template('file_upload.html',
                            msg='An error occurred when uploading file.')
 
@@ -76,12 +79,13 @@ def do_upload():
 @application.route('/store_center_pos', methods=['POST'])
 def store_center_pos():
     filename = request.form['imgfile']
+    title = request.form['title']
     posx = int(request.form['posx'])
     posy = int(request.form['posy'])
 
     image = db.session.query(ImageDB).filter_by(image_file=filename).first()
     if image is None:
-        image = ImageDB(image_file=filename, posx=posx, posy=posy)
+        image = ImageDB(image_file=filename, title=title, posx=posx, posy=posy)
         db.session.add(image)
     else:
         image.posx = posx

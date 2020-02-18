@@ -14,7 +14,7 @@
       <table class="table table-borderless">
         {% for f in file_list %}
           <tr>
-            <td><a class="btn btn-primary" href="/show/{{f}}">{{f}}</a></td>
+            <td><a class="btn btn-primary" href="/show/{{f.file}}">{{f.title}}</a></td>
           </tr>
         {% endfor %}
       </table>
