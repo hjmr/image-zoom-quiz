@@ -1,5 +1,4 @@
 let origImage;
-let origAratio;
 
 // timeout control
 let estimatedTimetoFinish;
@@ -19,8 +18,7 @@ let imageFilename = 'chewbacca.jpg';
 
 function calcCanvasSize() {
     let cnvWidth, cnvHeight;
-    let aratio = windowWidth / windowHeight;
-    if( aratio < origAratio ) {
+    if( windowWidth * origImage.height < windowHeight * origImage.width ) {
         cnvWidth  = windowWidth;
         cnvHeight = cnvWidth * origImage.height / origImage.width;
     } else {
@@ -33,7 +31,6 @@ function calcCanvasSize() {
 
 function preload() {
     origImage = loadImage('/imgs/' + imageFilename);
-    origAratio = origImage.width / origImage.height;
 }
 
 function setup() {
@@ -66,15 +63,12 @@ function draw() {
     text(estStr.substr(0,2) + "." + estStr.substr(-2) + "sec", 10, 30);
 }
 
-function toggleRunning() {
-    running = (running == true) ? false : true;
-}
 
-function anyClicked() {
+function canvasClicked() {
     if( finished ) {
         location.href="/";
     } else {
-        toggleRunning();
+        running = (running == true) ? false : true;
         if( running && !waiting_timeout ) {
             setTimeout(timed_zoom, interval);
             waiting_timeout = true;
@@ -82,13 +76,11 @@ function anyClicked() {
     }
 }
 
+/*
 function mouseClicked() {
-    anyClicked();
+    canvasClicked();
 }
-
-function touchEnded() {
-    anyClicked();
-}
+*/
 
 function timed_zoom() {
     if( 1 < sizeRatio ) {
@@ -106,6 +98,7 @@ function timed_zoom() {
 
     if( running ) {
         setTimeout(timed_zoom, interval);
+        waiting_timeout = true;
     } else {
         waiting_timeout = false;
     }
