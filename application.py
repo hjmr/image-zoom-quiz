@@ -88,6 +88,7 @@ def store_center_pos():
         image = ImageDB(image_file=filename, title=title, posx=posx, posy=posy)
         db.session.add(image)
     else:
+        image.title = title
         image.posx = posx
         image.posy = posy
     db.session.commit()
