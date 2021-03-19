@@ -30,7 +30,7 @@ jsonschema==3.2.0; python_version >= "2.7" and python_full_version < "3.0.0" or 
 markupsafe==1.1.1; python_version >= "2.7" and python_full_version < "3.0.0" or python_full_version >= "3.5.0"
 paramiko==2.7.2; python_version >= "2.7" and python_full_version < "3.0.0" or python_full_version >= "3.5.0"
 pathspec==0.5.9
-pillow==7.2.0; python_version >= "3.5"
+pillow==8.1.2; python_version >= "3.6"
 pycparser==2.20; python_version >= "3.6" and python_full_version < "3.0.0" or python_full_version >= "3.5.0" and python_version >= "3.6"
 pynacl==1.4.0; python_version >= "2.7" and python_full_version < "3.0.0" or python_full_version >= "3.5.0"
 pypiwin32==223; sys_platform == "win32" and python_version >= "3.6" and (python_version >= "2.7" and python_full_version < "3.0.0" or python_full_version >= "3.5.0")
