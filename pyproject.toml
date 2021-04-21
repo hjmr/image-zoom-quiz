@@ -7,12 +7,12 @@ authors = ["Hajime Murao <2620990+hjmr@users.noreply.github.com>"]
 [tool.poetry.dependencies]
 python = "^3.6"
 flask-sqlalchemy = "^2.4.1"
-awsebcli = "^3.18.0"
 Pillow = "^8.1.2"
 
 [tool.poetry.dev-dependencies]
 autopep8 = "^1.5"
 pylint = "^2.4.4"
+awsebcli = "^3.19.4"
 
 [build-system]
 requires = ["poetry>=0.12"]
