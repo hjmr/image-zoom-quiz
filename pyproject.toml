@@ -5,9 +5,9 @@ description = ""
 authors = ["Hajime Murao <2620990+hjmr@users.noreply.github.com>"]
 
 [tool.poetry.dependencies]
-python = "^3.6"
-flask-sqlalchemy = "^2.4.1"
-Pillow = "^8.1.2"
+python = "^3.9"
+Flask-SQLAlchemy = "^2.5.1"
+Pillow = "^9.0.0"
 
 [tool.poetry.dev-dependencies]
 autopep8 = "^1.5"
