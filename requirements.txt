@@ -11,7 +11,7 @@ colorama==0.4.3
 flask-sqlalchemy==3.1.1 
 flask==3.0.3 
 greenlet==3.0.3 
-idna==3.6 
+idna==3.7 
 importlib-metadata==7.1.0 
 itsdangerous==2.1.2 
 jinja2==3.1.3 
