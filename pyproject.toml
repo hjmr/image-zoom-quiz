@@ -6,14 +6,14 @@ authors = [
     {name = "hjmr",email = "2620990+hjmr@users.noreply.github.com"}
 ]
 readme = "README.md"
-requires-python = ">=3.13"
-dependencies = [
-    "awsebcli (>=3.25,<4.0)",
-    "flask-sqlalchemy (>=3.1.1,<4.0.0)",
-    "pillow (>=11.3.0,<12.0.0)"
-]
+requires-python = ">=3.13,<3.14"
 
 
 [build-system]
 requires = ["poetry-core>=2.0.0,<3.0.0"]
 build-backend = "poetry.core.masonry.api"
+
+[tool.poetry.dependencies]
+awsebcli = "^3.26"
+flask-sqlalchemy = "^3.1.1"
+pillow = "^12.1.1"
