@@ -16,4 +16,4 @@ build-backend = "poetry.core.masonry.api"
 [tool.poetry.dependencies]
 awsebcli = "^3.26"
 flask-sqlalchemy = "^3.1.1"
-pillow = "^12.1.1"
+pillow = "^13.0.0"
